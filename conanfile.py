@@ -102,7 +102,7 @@ class MariadbConnectorcConan(ConanFile):
         self._cmake.definitions["WITH_SSL"] = self.options.with_ssl
         self._cmake.definitions["INSTALL_BINDIR"] = os.path.join(self.package_folder, "bin")
         self._cmake.definitions["INSTALL_LIBDIR"] = os.path.join(self.package_folder, "lib")
-        self._cmake.definitions["INSTALL_PLUGINDIR"] = os.path.join(self.package_folder, "bin", "plugins")
+        self._cmake.definitions["INSTALL_PLUGINDIR"] = os.path.join(self.package_folder, "lib", "plugin")
         self._cmake.configure()
         return self._cmake
 
@@ -115,6 +115,7 @@ class MariadbConnectorcConan(ConanFile):
         self.copy("COPYING.LIB", dst="licenses", src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
+        tools.rmdir(os.path.join(self.package_folder, "lib", "pkgconfig"))
 
     def package_info(self):
         self.cpp_info.names["pkg_config"] = "libmariadb"
@@ -123,6 +124,6 @@ class MariadbConnectorcConan(ConanFile):
         if self.settings.os == "Linux":
             self.cpp_info.system_libs = ["dl", "m", "pthread"]
         elif self.settings.os == "Windows":
-            self.cpp_info.system_libs = ["ws2_32", "advapi32", "shlwapi", "crypt32"]
+            self.cpp_info.system_libs = ["ws2_32", "shlwapi"]
             if self.options.with_ssl == "schannel":
                 self.cpp_info.system_libs.append("secur32")
