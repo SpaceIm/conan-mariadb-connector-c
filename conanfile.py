@@ -50,8 +50,6 @@ class MariadbConnectorcConan(ConanFile):
         del self.settings.compiler.cppstd
         if self.settings.os != "Windows" and self.options.with_ssl == "schannel":
             raise ConanInvalidConfiguration("schannel only supported on Windows")
-        if self.options.with_ssl == "gnutls":
-            raise ConanInvalidConfiguration("gnutls not yet available in CCI")
 
     def requirements(self):
         self.requires("zlib/1.2.11")
@@ -61,6 +59,8 @@ class MariadbConnectorcConan(ConanFile):
             self.requires("libcurl/7.73.0")
         if self.options.with_ssl == "openssl":
             self.requires("openssl/1.1.1h")
+        elif self.options.with_ssl == "gnutls":
+            raise ConanInvalidConfiguration("gnutls not yet available in CCI")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
