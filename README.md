@@ -8,4 +8,4 @@
 
 ## Description
 
-[Conan.io](https://conan.io) package for [MariaDB Connector/C](https://github.com/mongodb/mariadb-connector-c).
+[Conan.io](https://conan.io) package for [MariaDB Connector/C](https://mariadb.com/kb/en/mariadb-connector-c).
